@@ -1,0 +1,14 @@
+include COPYING
+include duptreap.py
+include duptreaptest.py
+include m4_treap.m4
+include m4_treap_node.m4
+include nest.py
+include py_duptreap_node.py
+include py_treap_node.py
+include pyx_duptreap_node.pyx
+include pyx_treap_node.pyx
+include setup.py
+include treap.py
+include pyx_duptreap_node.c
+include pyx_treap_node.c
