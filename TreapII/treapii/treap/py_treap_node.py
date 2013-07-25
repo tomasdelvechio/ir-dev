@@ -44,10 +44,10 @@ class treap_node:
 		'''Check the heap invariant'''
 		# I kinda thought it was supposed to be <, but clearly that won't work with random priorities
 		if self.left != None:
-			assert self.priority <= self.left.priority
+			assert self.priority > self.left.priority
 			assert self.left.check_heap_invariant()
 		if self.right != None:
-			assert self.priority <= self.right.priority
+			assert self.priority > self.right.priority
 			assert self.right.check_heap_invariant()
 		return True
 
@@ -76,12 +76,12 @@ class treap_node:
 			return (1, node)
 		elif key < node.key:
 			(length_delta, node.left) = self.pyx_insert(node.left, key, value, priority)
-			if node.left.priority < node.priority:
+			if node.left.priority > node.priority:
 				node = self.rotate_with_left_child(node)
 			return (length_delta, node)
 		elif key > node.key:
 			(length_delta, node.right) = self.pyx_insert(node.right, key, value, priority)
-			if node.right.priority < node.priority:
+			if node.right.priority > node.priority:
 				node = self.rotate_with_right_child(node)
 			return (length_delta, node)
 		else:
@@ -109,7 +109,7 @@ class treap_node:
 					return (True, node.right)
 				if node.right is None:
 					return (True, node.left)
-				if node.left.priority < node.right.priority:
+				if node.left.priority > node.right.priority:
 					node = self.rotate_with_left_child(node)
 				else:
 					node = self.rotate_with_right_child(node)
