@@ -11,6 +11,9 @@ t = treap()
 for i in xrange(len(docids)):
     t.insert(docids[i], None, freqs[i])
 
+# Recorridos #
+##############
+
 # Recorrido en Pre Orden
 def PreOrder(node):
     if node == None:
@@ -18,19 +21,6 @@ def PreOrder(node):
     print node.key
     PreOrder(node.left)
     PreOrder(node.right)
-
-def GenerarBP(node):
-    # Genera el Arbol de parentesis balanceados asociado a la estructura (Seccion 4.3.1)
-    # La estructura de recorrido es basicamente InOrder
-    
-    global topology # Permitimos que se edite la variable global
-    
-    if node == None:
-        return
-    topology += '('
-    GenerarBP(node.left)
-    topology += ')'
-    GenerarBP(node.right)
 
 # Recorrido en In Orden
 def InOrder(node):
@@ -47,6 +37,36 @@ def PosOrder(node):
     PosOrder(node.left)
     PosOrder(node.right)
     print node.key
+
+# Representacion compacta de la topologia #
+###########################################
+
+def GenerarBP(node):
+    # Genera el Arbol de parentesis balanceados asociado a la estructura (Seccion 4.3.1)
+    # La estructura de recorrido es basicamente InOrder
+    
+    global topology # Permitimos que se edite la variable global
+    
+    if node == None:
+        return
+    topology += '('
+    GenerarBP(node.left)
+    topology += ')'
+    GenerarBP(node.right)
+
+# Otras funciones utiles #
+##########################
+
+# Devuelve el Id de documento representado por un nodo
+def id(node):
+    return node.key
+
+# Devuelve la frecuencia de un nodo, que para el heap es la prioridad
+def f(node):
+    return node.priority
+
+# Tests #
+#########
 
 objective = '(((()())(()())())()((())))'
 print objective
