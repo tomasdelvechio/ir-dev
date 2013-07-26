@@ -19,6 +19,16 @@ def PreOrder(node):
     PreOrder(node.left)
     PreOrder(node.right)
 
+def GenerarBP(node):
+    # Genera el Arbol de parentesis balanceados asociado a la estructura (Seccion 4.3.1)
+    # La estructura de recorrido es basicamente InOrder
+    if node == None:
+        return
+    print '(',
+    GenerarBP(node.left)
+    print ')',
+    GenerarBP(node.right)
+
 # Recorrido en In Orden
 def InOrder(node):
     if node == None:
@@ -35,5 +45,10 @@ def PosOrder(node):
     PosOrder(node.right)
     print node.key
 
-PreOrder(t.root)
-InOrder(t.root)
+objective = '( ( ( ( ) ( ) ) ( ( ) ( ) ) ( ) ) ( ) ( ( ( ) ) ) )'
+print objective
+print '(', # Es la raiz falsa
+GenerarBP(t.root)
+print ')' # Es la raiz falsa
+
+
