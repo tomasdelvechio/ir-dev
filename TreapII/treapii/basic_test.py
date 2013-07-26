@@ -22,11 +22,14 @@ def PreOrder(node):
 def GenerarBP(node):
     # Genera el Arbol de parentesis balanceados asociado a la estructura (Seccion 4.3.1)
     # La estructura de recorrido es basicamente InOrder
+    
+    global topology # Permitimos que se edite la variable global
+    
     if node == None:
         return
-    print '(',
+    topology += '('
     GenerarBP(node.left)
-    print ')',
+    topology += ')'
     GenerarBP(node.right)
 
 # Recorrido en In Orden
@@ -45,10 +48,11 @@ def PosOrder(node):
     PosOrder(node.right)
     print node.key
 
-objective = '( ( ( ( ) ( ) ) ( ( ) ( ) ) ( ) ) ( ) ( ( ( ) ) ) )'
+objective = '(((()())(()())())()((())))'
 print objective
-print '(', # Es la raiz falsa
+topology = ""
 GenerarBP(t.root)
-print ')' # Es la raiz falsa
+topology = '(' + topology + ')' # Agregamos el fake root
+print topology
 
 
