@@ -58,15 +58,43 @@ def GenerarBP(node):
 ##########################
 
 # Devuelve el Id de documento representado por un nodo
-def id(node):
+def _id(node):
     return node.key
 
 # Devuelve la frecuencia de un nodo, que para el heap es la prioridad
 def f(node):
     return node.priority
 
+# Arbol de codificacion diferencial #
+#####################################
+
+# Dado un treap debemos poder calcular su Treap diferencial (Differenttially Encoded Treap).
+
+def GenerarDET(node, node_parent):
+    """ Presupone t cargado y det vacio inicialmente """
+    #~ global t
+    #~ global det
+    
+    if node == None:
+        return
+    GenerarDET(node.left, node)
+    # si es el nodo raiz
+    if node_parent == None:
+        diff_ids.append(_id(node))
+        diff_freqs.append(f(node))
+    else:
+        if(_id(node) > _id(node_parent)):
+            diff_ids.append(_id(node) - _id(node_parent))
+        else:
+            diff_ids.append(_id(node_parent) - _id(node))
+        diff_freqs.append(f(node_parent) - f(node))
+    GenerarDET(node.right, node)
+    
+
 # Tests #
 #########
+
+### Para generar el BP del Treap
 
 objective = '(((()())(()())())()((())))'
 print objective
@@ -75,4 +103,10 @@ GenerarBP(t.root)
 topology = '(' + topology + ')' # Agregamos el fake root
 print topology
 
+### Para generar el DET
 
+diff_ids = []
+diff_freqs = []
+GenerarDET(t.root, None)
+print diff_ids
+print diff_freqs
