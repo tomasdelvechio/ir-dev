@@ -89,24 +89,68 @@ def GenerarDET(node, node_parent):
             diff_ids.append(_id(node_parent) - _id(node))
         diff_freqs.append(f(node_parent) - f(node))
     GenerarDET(node.right, node)
-    
+
+# DACs y VBEncoding #
+#####################
+
+#~ def VBcode(num, b=3):
+    #~ bin_num = bin(num)
+    #~ bin_num = bin_num[2:]
+
+def VBEncodeNumber(n):
+    _bytes = []
+    while True:
+        _bytes.insert(0,n % 128)
+        if n < 128:
+            break
+        n = n / 128
+    _bytes[len(_bytes)-1] += 128
+    return _bytes
+
+def VBEncode(numbers):
+    bytestream = []
+    for n in numbers:
+        _bytes = VBEncodeNumber(n)
+        bytestream = bytestream + _bytes
+    return bytestream
+
+def VBDecode(bytestream):
+    numbers = []
+    n = 0
+    for i in xrange(len(bytestream)):
+        if bytestream[i] < 128:
+            n = 128 * n + bytestream[i]
+        else:
+            n = 128 * n + (bytestream[i] - 128)
+            numbers.append(n)
+            n = 0
+    return numbers
 
 # Tests #
 #########
 
 ### Para generar el BP del Treap
 
-objective = '(((()())(()())())()((())))'
-print objective
-topology = ""
-GenerarBP(t.root)
-topology = '(' + topology + ')' # Agregamos el fake root
-print topology
+#~ objective = '(((()())(()())())()((())))'
+#~ print objective
+#~ topology = ""
+#~ GenerarBP(t.root)
+#~ topology = '(' + topology + ')' # Agregamos el fake root
+#~ print topology
 
 ### Para generar el DET
 
-diff_ids = []
-diff_freqs = []
-GenerarDET(t.root, None)
-print diff_ids
-print diff_freqs
+#~ diff_ids = []
+#~ diff_freqs = []
+#~ GenerarDET(t.root, None)
+#~ print diff_ids
+#~ print diff_freqs
+
+### VBEncode tests
+
+posting = [123,231,344,543,643,788,888,889,900,1202]
+print posting
+encoded = VBEncode(posting)
+print encoded
+decoded = VBDecode(encoded)
+print decoded
